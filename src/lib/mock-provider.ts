@@ -1,7 +1,7 @@
 // ============================================
 // MockProvider - 개발/테스트용 더미 Provider
 // - API 키 없이 동작
-// - 원본 이미지를 복사해서 결과 3장으로 반환 (UI 테스트용)
+// - 원본 이미지를 그대로 data URL로 반환 (UI 테스트용)
 // ============================================
 
 import {
@@ -9,9 +9,6 @@ import {
   HairTransformInput,
   HairTransformOutput,
 } from "./hair-transform-provider";
-import { copyFile, mkdir } from "fs/promises";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
 
 export class MockProvider implements HairTransformProvider {
   readonly name = "MockProvider";
@@ -27,20 +24,9 @@ export class MockProvider implements HairTransformProvider {
     const delay = 2000 + Math.random() * 2000;
     await new Promise((resolve) => setTimeout(resolve, delay));
 
-    // 출력 디렉토리 확보
-    const outputDir = path.join(process.cwd(), "uploads", "output");
-    await mkdir(outputDir, { recursive: true });
-
-    // Mock: 원본 이미지를 N장 복사 (실제로는 Gemini가 변환)
-    const ext = path.extname(input.sourcePath);
-    const resultPaths: string[] = [];
-
-    for (let i = 0; i < input.resultCount; i++) {
-      const resultFileName = `result_${uuidv4()}${ext}`;
-      const resultPath = path.join(outputDir, resultFileName);
-      await copyFile(input.sourcePath, resultPath);
-      resultPaths.push(resultPath);
-    }
+    // Mock: 원본 이미지를 그대로 N장 반환
+    const dataUrl = `data:${input.sourceMimeType};base64,${input.sourceBase64}`;
+    const resultDataUrls = Array(input.resultCount).fill(dataUrl);
 
     console.log(
       `[MockProvider] ${input.resultCount}장 생성 완료` +
@@ -49,7 +35,7 @@ export class MockProvider implements HairTransformProvider {
     );
 
     return {
-      resultPaths,
+      resultDataUrls,
       processingTimeMs: Date.now() - startTime,
     };
   }

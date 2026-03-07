@@ -1,12 +1,10 @@
 // ============================================
 // POST /api/transform - 헤어스타일 변환 API
-// - 업로드된 사진 + 스타일/색상 선택으로 Gemini 변환 실행
-// - Provider 패턴으로 AI 엔진 추상화
+// - 업로드된 사진(base64) + 스타일/색상 선택으로 Gemini 변환 실행
+// - Vercel 서버리스 호환 (파일시스템 사용 안 함)
 // ============================================
 
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
-import { existsSync } from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { getProvider } from "@/lib/provider-factory";
 import { findStyleById, findColorById } from "@/lib/style-data";
@@ -16,7 +14,8 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const {
-      sourceImageId,
+      sourceBase64,
+      sourceMimeType,
       styleId,
       customStyleText,
       enableColor,
@@ -25,7 +24,7 @@ export async function POST(request: NextRequest) {
     } = body;
 
     // 필수 파라미터 검증
-    if (!sourceImageId) {
+    if (!sourceBase64 || !sourceMimeType) {
       return NextResponse.json<ApiResponse<null>>(
         { success: false, error: "본인 사진이 필요합니다." },
         { status: 400 }
@@ -79,40 +78,32 @@ export async function POST(request: NextRequest) {
       colorName = color.nameKo;
     }
 
-    // 파일 경로 확인
-    const uploadsDir = path.join(process.cwd(), "uploads");
-    const sourcePath = findFileById(path.join(uploadsDir, "input"), sourceImageId);
-
-    if (!sourcePath) {
-      return NextResponse.json<ApiResponse<null>>(
-        { success: false, error: "본인 사진을 찾을 수 없습니다. 다시 업로드해주세요." },
-        { status: 404 }
-      );
-    }
-
     // Provider를 통해 변환 실행
     const provider = getProvider();
     const output = await provider.transform({
-      sourcePath,
+      sourceBase64,
+      sourceMimeType,
       stylePrompt,
       styleName,
       colorPrompt,
       colorName,
-      resultCount: Math.min(resultCount, 5), // 최대 5장으로 제한
+      resultCount: Math.min(resultCount, 5),
     });
 
-    // 결과 URL 생성
-    const resultItems: TransformResultItem[] = output.resultPaths.map(
-      (resultPath) => ({
+    // 결과 구성
+    const sourceDataUrl = `data:${sourceMimeType};base64,${sourceBase64}`;
+
+    const resultItems: TransformResultItem[] = output.resultDataUrls.map(
+      (dataUrl) => ({
         id: uuidv4(),
-        resultImageUrl: `/api/images/output/${path.basename(resultPath)}`,
+        resultImageUrl: dataUrl,
       })
     );
 
     const result: TransformResult = {
       id: uuidv4(),
       status: "completed",
-      sourceImageUrl: `/api/images/input/${path.basename(sourcePath)}`,
+      sourceImageUrl: sourceDataUrl,
       styleName,
       colorName,
       results: resultItems,
@@ -133,16 +124,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-/**
- * uploads 디렉토리에서 ID로 시작하는 파일을 찾는 헬퍼
- */
-function findFileById(dir: string, fileId: string): string | null {
-  const extensions = [".jpg", ".jpeg", ".png", ".webp"];
-  for (const ext of extensions) {
-    const filePath = path.join(dir, `${fileId}${ext}`);
-    if (existsSync(filePath)) return filePath;
-  }
-  return null;
 }

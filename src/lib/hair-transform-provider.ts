@@ -6,7 +6,8 @@
 // ============================================
 
 export interface HairTransformInput {
-  sourcePath: string;          // 사용자 본인 사진 경로
+  sourceBase64: string;        // 사용자 본인 사진 base64 데이터
+  sourceMimeType: string;      // MIME 타입 (image/jpeg 등)
   stylePrompt: string;         // 헤어스타일 프롬프트 (영문)
   styleName: string;           // 스타일명 (한국어, 결과 표시용)
   colorPrompt?: string;        // (선택) 염색 색상 프롬프트
@@ -15,7 +16,7 @@ export interface HairTransformInput {
 }
 
 export interface HairTransformOutput {
-  resultPaths: string[];       // 결과 이미지 저장 경로들
+  resultDataUrls: string[];    // 결과 이미지 data URL들
   processingTimeMs: number;    // 처리 시간
 }
 

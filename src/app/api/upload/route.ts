@@ -1,12 +1,10 @@
 // ============================================
 // POST /api/upload - 이미지 업로드 API
-// - 사용자 사진, 스타일 레퍼런스, 색상 레퍼런스 업로드 처리
-// - 파일 검증 (크기, 타입) 후 로컬 저장
+// - 파일 검증 (크기, 타입) 후 base64로 변환하여 반환
+// - Vercel 서버리스 환경 호환 (파일시스템 사용 안 함)
 // ============================================
 
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import { ApiResponse, UploadResponse } from "@/types";
 
@@ -19,8 +17,6 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
-    // category: "input" (본인 사진), "style" (스타일 레퍼런스), "color" (색상 레퍼런스)
-    const category = (formData.get("category") as string) || "input";
 
     // 파일 존재 여부 검증
     if (!file) {
@@ -49,36 +45,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 카테고리 검증
-    const validCategories = ["input", "style", "color"];
-    if (!validCategories.includes(category)) {
-      return NextResponse.json<ApiResponse<null>>(
-        { success: false, error: "잘못된 카테고리입니다." },
-        { status: 400 }
-      );
-    }
-
-    // 저장 디렉토리 결정
-    const uploadDir = path.join(process.cwd(), "uploads", category === "style" ? "input" : category);
-    await mkdir(uploadDir, { recursive: true });
-
-    // 안전한 파일명 생성 (UUID + 원래 확장자)
-    const ext = path.extname(file.name).toLowerCase();
-    const safeExts = [".jpg", ".jpeg", ".png", ".webp"];
-    const finalExt = safeExts.includes(ext) ? ext : ".png";
-    const fileId = uuidv4();
-    const fileName = `${fileId}${finalExt}`;
-    const filePath = path.join(uploadDir, fileName);
-
-    // 파일 저장
+    // 파일을 base64로 변환
     const bytes = await file.arrayBuffer();
-    await writeFile(filePath, Buffer.from(bytes));
+    const base64Data = Buffer.from(bytes).toString("base64");
+    const fileId = uuidv4();
 
-    // 응답: 파일 ID와 접근 URL 반환
+    // 응답: base64 데이터와 data URL 반환
+    const dataUrl = `data:${file.type};base64,${base64Data}`;
+
     const response: UploadResponse = {
       id: fileId,
-      url: `/api/images/${category === "style" ? "input" : category}/${fileName}`,
+      url: dataUrl,
       originalName: file.name,
+      base64Data,
+      mimeType: file.type,
     };
 
     return NextResponse.json<ApiResponse<UploadResponse>>({

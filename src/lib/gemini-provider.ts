@@ -3,6 +3,7 @@
 // - 사용자 사진 + 텍스트 프롬프트로 머리 영역만 편집
 // - 얼굴/배경은 유지, 헤어스타일만 변경
 // - 결과 N장 생성 (API를 N회 호출)
+// - Vercel 서버리스 호환 (파일시스템 사용 안 함)
 // ============================================
 
 import {
@@ -10,10 +11,7 @@ import {
   HairTransformInput,
   HairTransformOutput,
 } from "./hair-transform-provider";
-import { GoogleGenAI, Type } from "@google/genai";
-import { readFile, writeFile, mkdir } from "fs/promises";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
+import { GoogleGenAI } from "@google/genai";
 
 export class GeminiProvider implements HairTransformProvider {
   readonly name = "GeminiProvider";
@@ -45,29 +43,12 @@ export class GeminiProvider implements HairTransformProvider {
   async transform(input: HairTransformInput): Promise<HairTransformOutput> {
     const startTime = Date.now();
 
-    // 출력 디렉토리 확보
-    const outputDir = path.join(process.cwd(), "uploads", "output");
-    await mkdir(outputDir, { recursive: true });
-
-    // 원본 이미지를 Base64로 읽기
-    const imageBuffer = await readFile(input.sourcePath);
-    const base64Image = imageBuffer.toString("base64");
-
-    // 확장자로 MIME 타입 결정
-    const ext = path.extname(input.sourcePath).toLowerCase();
-    const mimeType =
-      ext === ".png"
-        ? "image/png"
-        : ext === ".webp"
-          ? "image/webp"
-          : "image/jpeg";
-
     // 프롬프트 조합
     const prompt = this.buildPrompt(input);
     console.log(`[GeminiProvider] 프롬프트: ${prompt}`);
 
     // N장 생성 (각각 독립적으로 API 호출)
-    const resultPaths: string[] = [];
+    const resultDataUrls: string[] = [];
 
     for (let i = 0; i < input.resultCount; i++) {
       try {
@@ -84,8 +65,8 @@ export class GeminiProvider implements HairTransformProvider {
                 { text: prompt },
                 {
                   inlineData: {
-                    mimeType,
-                    data: base64Image,
+                    mimeType: input.sourceMimeType,
+                    data: input.sourceBase64,
                   },
                 },
               ],
@@ -138,14 +119,12 @@ export class GeminiProvider implements HairTransformProvider {
         let saved = false;
         for (const part of parts) {
           if (part.inlineData && part.inlineData.data) {
-            const resultFileName = `result_${uuidv4()}.png`;
-            const resultPath = path.join(outputDir, resultFileName);
-            const resultBuffer = Buffer.from(part.inlineData.data, "base64");
-            await writeFile(resultPath, resultBuffer);
-            resultPaths.push(resultPath);
+            const mimeType = part.inlineData.mimeType || "image/png";
+            const dataUrl = `data:${mimeType};base64,${part.inlineData.data}`;
+            resultDataUrls.push(dataUrl);
             saved = true;
             console.log(
-              `[GeminiProvider] 결과 ${i + 1} 저장 완료: ${resultFileName} (${resultBuffer.length} bytes)`
+              `[GeminiProvider] 결과 ${i + 1} 완료 (${part.inlineData.data.length} chars base64)`
             );
             break;
           }
@@ -178,7 +157,7 @@ export class GeminiProvider implements HairTransformProvider {
       }
     }
 
-    if (resultPaths.length === 0) {
+    if (resultDataUrls.length === 0) {
       throw new Error(
         "Gemini API에서 이미지를 생성하지 못했습니다. " +
           "얼굴이 잘 보이는 정면 사진으로 다시 시도해주세요."
@@ -186,7 +165,7 @@ export class GeminiProvider implements HairTransformProvider {
     }
 
     return {
-      resultPaths,
+      resultDataUrls,
       processingTimeMs: Date.now() - startTime,
     };
   }

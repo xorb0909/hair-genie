@@ -53,7 +53,8 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           gender,
-          sourceImageId: sourceImage.id,
+          sourceBase64: sourceImage.base64Data,
+          sourceMimeType: sourceImage.mimeType,
           styleId: selectedStyleId,
           customStyleText:
             selectedStyleId === "custom" ? customStyleText.trim() : undefined,

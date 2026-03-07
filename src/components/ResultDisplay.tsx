@@ -13,18 +13,14 @@ interface ResultDisplayProps {
 }
 
 export default function ResultDisplay({ result }: ResultDisplayProps) {
-  const handleDownload = async (imageUrl: string, index: number) => {
+  const handleDownload = (imageUrl: string, index: number) => {
     try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url;
+      a.href = imageUrl;
       a.download = `hairstyle-result-${result.id.slice(0, 8)}-${index + 1}.png`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      URL.revokeObjectURL(url);
     } catch {
       alert("다운로드에 실패했습니다. 다시 시도해주세요.");
     }

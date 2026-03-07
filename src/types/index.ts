@@ -66,6 +66,8 @@ export interface UploadResponse {
   id: string;
   url: string;
   originalName: string;
+  base64Data: string;    // base64 인코딩된 이미지 데이터
+  mimeType: string;      // image/jpeg, image/png, image/webp
 }
 
 /** API 공통 응답 래퍼 */
