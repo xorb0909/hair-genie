@@ -110,10 +110,8 @@ export class GeminiProvider implements HairTransformProvider {
         }
 
         // 안전 필터로 차단된 경우
-        if (
-          response.candidates?.[0]?.finishReason === "SAFETY" ||
-          response.candidates?.[0]?.finishReason === "BLOCKED"
-        ) {
+        const finishReason = response.candidates?.[0]?.finishReason as string | undefined;
+        if (finishReason === "SAFETY" || finishReason === "BLOCKED") {
           console.error(
             `[GeminiProvider] 결과 ${i + 1}: 안전 필터에 의해 차단됨`
           );
