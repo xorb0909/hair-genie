@@ -18,6 +18,8 @@ import {
 import {
   User,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
@@ -65,6 +67,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setRefreshTrigger((prev) => prev + 1);
   }, []);
 
+  // 리다이렉트 결과 처리 (새로고침 후 돌아왔을 때)
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (result?.user) {
+          // 리다이렉트 로그인 성공 → 서버에 유저 등록
+          const ref = sessionStorage.getItem("pendingReferralCode");
+          const idToken = await result.user.getIdToken();
+          await fetch("/api/auth/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${idToken}`,
+            },
+            body: JSON.stringify({ referralCode: ref || null }),
+          });
+          sessionStorage.removeItem("pendingReferralCode");
+        }
+      })
+      .catch((err) => {
+        console.error("리다이렉트 로그인 처리 실패:", err);
+      });
+  }, []);
+
   // Firebase Auth 상태 감시
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -109,10 +135,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, [user, refreshTrigger]);
 
-  // 구글 로그인
+  // 구글 로그인 (팝업 시도 → 실패 시 리다이렉트 폴백)
   const signInWithGoogle = useCallback(
     async (referralCode?: string | null) => {
       try {
+        // 팝업 먼저 시도
         const result = await signInWithPopup(auth, googleProvider);
         const firebaseUser = result.user;
 
@@ -126,7 +153,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           },
           body: JSON.stringify({ referralCode: referralCode || null }),
         });
-      } catch (error) {
+      } catch (error: unknown) {
+        const errCode = (error as { code?: string })?.code;
+        // 팝업 차단 또는 sessionStorage 문제 → 리다이렉트 방식으로 전환
+        if (
+          errCode === "auth/popup-blocked" ||
+          errCode === "auth/popup-closed-by-user" ||
+          errCode === "auth/internal-error" ||
+          errCode === "auth/missing-initial-state"
+        ) {
+          if (referralCode) {
+            sessionStorage.setItem("pendingReferralCode", referralCode);
+          }
+          await signInWithRedirect(auth, googleProvider);
+          return;
+        }
         console.error("로그인 실패:", error);
         throw error;
       }
