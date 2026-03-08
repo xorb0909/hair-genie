@@ -62,7 +62,7 @@ export default function Header({ onOpenPayment }: HeaderProps) {
                 {userData.photoURL ? (
                   <img
                     src={userData.photoURL}
-                    alt=""
+                    alt="사용자 프로필 사진"
                     className="w-8 h-8 rounded-full border border-gray-200"
                     referrerPolicy="no-referrer"
                   />

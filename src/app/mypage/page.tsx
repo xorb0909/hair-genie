@@ -73,7 +73,7 @@ export default function MyPage() {
             {userData.photoURL ? (
               <img
                 src={userData.photoURL}
-                alt=""
+                alt="사용자 프로필 사진"
                 className="w-16 h-16 rounded-full border-2 border-violet-200"
                 referrerPolicy="no-referrer"
               />

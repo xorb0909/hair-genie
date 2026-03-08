@@ -1,5 +1,5 @@
 // ============================================
-// POST /api/payment/confirm - 토스페이먼츠 결제 승인
+// POST /api/payment/kakao/approve - 카카오페이 결제 승인
 // - 결제 승인 → 토큰 충전 → Firestore 기록
 // ============================================
 
@@ -8,7 +8,6 @@ import { verifyAuth } from "@/lib/auth-helpers";
 import { adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 
-// 토큰 패키지 정의
 const TOKEN_PACKAGES: Record<string, { tokens: number; price: number }> = {
   token_10: { tokens: 10, price: 1000 },
   token_30: { tokens: 30, price: 2500 },
@@ -22,34 +21,39 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { paymentKey, orderId, amount } = await request.json();
+    const { tid, pg_token, orderId } = await request.json();
 
-    if (!paymentKey || !orderId || !amount) {
+    if (!tid || !pg_token || !orderId) {
       return NextResponse.json({ error: "결제 정보 부족" }, { status: 400 });
     }
 
-    // 토스페이먼츠 결제 승인 API 호출
-    const secretKey = process.env.TOSS_SECRET_KEY;
-    const encryptedKey = Buffer.from(`${secretKey}:`).toString("base64");
+    const secretKey = process.env.KAKAO_SECRET_KEY;
+    if (!secretKey) {
+      return NextResponse.json({ error: "결제 설정 오류" }, { status: 500 });
+    }
 
-    const tossRes = await fetch(
-      "https://api.tosspayments.com/v1/payments/confirm",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Basic ${encryptedKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ paymentKey, orderId, amount }),
-      }
-    );
+    // 카카오페이 결제 승인 API 호출
+    const res = await fetch("https://open-api.kakaopay.com/online/v1/payment/approve", {
+      method: "POST",
+      headers: {
+        Authorization: `SECRET_KEY ${secretKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cid: "TC0ONETIME",
+        tid,
+        partner_order_id: orderId,
+        partner_user_id: decoded.uid,
+        pg_token,
+      }),
+    });
 
-    const tossData = await tossRes.json();
+    const kakaoData = await res.json();
 
-    if (!tossRes.ok) {
-      console.error("[Payment] 토스 결제 승인 실패:", tossData);
+    if (!res.ok) {
+      console.error("[KakaoPay] 결제 승인 실패:", kakaoData);
       return NextResponse.json(
-        { error: tossData.message || "결제 승인 실패" },
+        { error: kakaoData.msg || "결제 승인 실패" },
         { status: 400 }
       );
     }
@@ -58,8 +62,8 @@ export async function POST(request: NextRequest) {
     const packageType = orderId.split("_").slice(0, 2).join("_");
     const pkg = TOKEN_PACKAGES[packageType];
 
-    if (!pkg || pkg.price !== amount) {
-      console.error("[Payment] 패키지 불일치:", { packageType, amount });
+    if (!pkg || pkg.price !== kakaoData.amount.total) {
+      console.error("[KakaoPay] 패키지 불일치:", { packageType, amount: kakaoData.amount });
       return NextResponse.json({ error: "결제 정보 불일치" }, { status: 400 });
     }
 
@@ -85,14 +89,15 @@ export async function POST(request: NextRequest) {
     await adminDb.collection("payments").add({
       uid: decoded.uid,
       orderId,
-      paymentKey,
-      amount,
+      tid,
+      amount: kakaoData.amount.total,
       packageType,
       tokensGranted: totalTokens,
       bonusTokens,
       isFirstPayment,
       status: "completed",
-      tossData,
+      paymentMethod: "kakaopay",
+      kakaoData,
       createdAt: FieldValue.serverTimestamp(),
     });
 
@@ -103,7 +108,7 @@ export async function POST(request: NextRequest) {
       isFirstPayment,
     });
   } catch (error) {
-    console.error("[Payment] 에러:", error);
+    console.error("[KakaoPay] 에러:", error);
     return NextResponse.json({ error: "결제 처리 실패" }, { status: 500 });
   }
 }

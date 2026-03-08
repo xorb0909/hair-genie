@@ -2,7 +2,7 @@
 
 // ============================================
 // 결제 성공 페이지
-// - 토스페이먼츠 리다이렉트 후 서버에 결제 승인 요청
+// - 카카오페이 리다이렉트 후 서버에 결제 승인 요청
 // ============================================
 
 import { useEffect, useState } from "react";
@@ -25,11 +25,12 @@ function PaymentSuccessContent() {
     const confirmPayment = async () => {
       if (!user) return;
 
-      const paymentKey = searchParams.get("paymentKey");
-      const orderId = searchParams.get("orderId");
-      const amount = searchParams.get("amount");
+      // 카카오페이에서 전달받는 pg_token
+      const pgToken = searchParams.get("pg_token");
+      const orderId = sessionStorage.getItem("kakao_orderId");
+      const tid = sessionStorage.getItem("kakao_tid");
 
-      if (!paymentKey || !orderId || !amount) {
+      if (!pgToken || !orderId || !tid) {
         setStatus("error");
         setErrorMsg("결제 정보가 올바르지 않습니다.");
         return;
@@ -37,16 +38,16 @@ function PaymentSuccessContent() {
 
       try {
         const idToken = await user.getIdToken();
-        const res = await fetch("/api/payment/confirm", {
+        const res = await fetch("/api/payment/kakao/approve", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${idToken}`,
           },
           body: JSON.stringify({
-            paymentKey,
+            tid,
+            pg_token: pgToken,
             orderId,
-            amount: Number(amount),
           }),
         });
 
@@ -56,6 +57,9 @@ function PaymentSuccessContent() {
           setResult(data);
           setStatus("success");
           refreshUserData();
+          // 사용 완료된 결제 정보 제거
+          sessionStorage.removeItem("kakao_tid");
+          sessionStorage.removeItem("kakao_orderId");
         } else {
           setStatus("error");
           setErrorMsg(data.error || "결제 처리 실패");

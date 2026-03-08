@@ -3,7 +3,7 @@
 // ============================================
 // PaymentModal - 토큰 충전 모달
 // - 토큰 패키지 선택
-// - 토스페이먼츠 결제 연동
+// - 카카오페이 결제 연동
 // ============================================
 
 import { useState } from "react";
@@ -22,7 +22,7 @@ const PACKAGES = [
 ];
 
 export default function PaymentModal({ isOpen, onClose, reason = "charge" }: PaymentModalProps) {
-  const { user, userData } = useAuth();
+  const { user } = useAuth();
   const [selectedPkg, setSelectedPkg] = useState<string>("token_30");
   const [processing, setProcessing] = useState(false);
 
@@ -33,32 +33,34 @@ export default function PaymentModal({ isOpen, onClose, reason = "charge" }: Pay
 
     setProcessing(true);
     try {
-      const pkg = PACKAGES.find((p) => p.id === selectedPkg);
-      if (!pkg) return;
+      const idToken = await user.getIdToken();
 
-      const orderId = `${selectedPkg}_${user.uid.slice(0, 8)}_${Date.now()}`;
+      // 1. 서버에 결제 준비 요청
+      const readyRes = await fetch("/api/payment/kakao/ready", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({ packageId: selectedPkg }),
+      });
 
-      // 토스페이먼츠 SDK 동적 로드
-      const { loadTossPayments } = await import("@tosspayments/tosspayments-sdk");
-      const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY;
-      if (!clientKey) {
-        alert("결제 설정이 완료되지 않았습니다.");
+      const readyData = await readyRes.json();
+
+      if (!readyData.success) {
+        alert(readyData.error || "결제 준비에 실패했습니다.");
         return;
       }
 
-      const tossPayments = await loadTossPayments(clientKey);
-      const payment = tossPayments.payment({ customerKey: user.uid });
+      // tid와 orderId를 sessionStorage에 저장 (승인 시 필요)
+      sessionStorage.setItem("kakao_tid", readyData.tid);
+      sessionStorage.setItem("kakao_orderId", readyData.orderId);
 
-      await payment.requestPayment({
-        method: "CARD",
-        amount: { currency: "KRW", value: pkg.price },
-        orderId,
-        orderName: `Hair Genie 토큰 ${pkg.label}`,
-        customerEmail: user.email || undefined,
-        customerName: user.displayName || undefined,
-        successUrl: `${window.location.origin}/payment/success`,
-        failUrl: `${window.location.origin}/payment/fail`,
-      });
+      // 2. 카카오페이 결제창으로 이동 (모바일/PC 분기)
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const redirectUrl = isMobile ? readyData.redirectMobileUrl : readyData.redirectUrl;
+
+      window.location.href = redirectUrl;
     } catch (error: unknown) {
       const errMsg = error instanceof Error ? error.message : "";
       if (!errMsg.includes("취소") && !errMsg.includes("CANCEL")) {
@@ -69,9 +71,6 @@ export default function PaymentModal({ isOpen, onClose, reason = "charge" }: Pay
       setProcessing(false);
     }
   };
-
-  // 첫 결제 여부 확인 (userData에서)
-  const isFirstPayment = (userData?.totalUsed ?? 0) >= 0; // 서버에서 판단하므로 UI에선 항상 표시
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -86,13 +85,11 @@ export default function PaymentModal({ isOpen, onClose, reason = "charge" }: Pay
               ? "토큰을 충전하고 헤어스타일 변환을 계속 즐겨보세요"
               : "토큰을 충전하면 더 많은 헤어스타일을 체험할 수 있어요"}
           </p>
-          {isFirstPayment && (
-            <div className="mt-2 bg-white/20 rounded-lg px-3 py-1.5 inline-block">
-              <span className="text-xs font-medium">
-                첫 결제 보너스: +5 토큰 추가 지급!
-              </span>
-            </div>
-          )}
+          <div className="mt-2 bg-white/20 rounded-lg px-3 py-1.5 inline-block">
+            <span className="text-xs font-medium">
+              첫 결제 보너스: +5 토큰 추가 지급!
+            </span>
+          </div>
         </div>
 
         {/* 패키지 선택 */}
@@ -141,8 +138,18 @@ export default function PaymentModal({ isOpen, onClose, reason = "charge" }: Pay
           ))}
         </div>
 
+        {/* 결제수단 안내 */}
+        <div className="px-6 pb-2">
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span>카카오페이로 간편하게 결제됩니다</span>
+          </div>
+        </div>
+
         {/* 버튼 */}
-        <div className="px-6 pb-6 flex gap-3">
+        <div className="px-6 pb-6 pt-3 flex gap-3">
           <button
             onClick={onClose}
             className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
@@ -152,9 +159,9 @@ export default function PaymentModal({ isOpen, onClose, reason = "charge" }: Pay
           <button
             onClick={handlePayment}
             disabled={processing || !selectedPkg}
-            className="flex-1 py-3 rounded-xl bg-violet-600 text-white text-sm font-bold hover:bg-violet-700 transition-colors disabled:opacity-50"
+            className="flex-1 py-3 rounded-xl bg-[#FEE500] text-[#191919] text-sm font-bold hover:bg-[#FDD835] transition-colors disabled:opacity-50"
           >
-            {processing ? "처리 중..." : "결제하기"}
+            {processing ? "처리 중..." : "카카오페이 결제"}
           </button>
         </div>
       </div>
