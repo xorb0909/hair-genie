@@ -1,6 +1,8 @@
 // ============================================
 // POST /api/transform - 헤어스타일 변환 API
 // - 업로드된 사진(base64) + 스타일/색상 선택으로 Gemini 변환 실행
+// - 토큰 잔액 확인 + 차감 (서버사이드)
+// - 관리자는 토큰 차감 없이 무제한
 // - Vercel 서버리스 호환 (파일시스템 사용 안 함)
 // ============================================
 
@@ -9,9 +11,42 @@ import { v4 as uuidv4 } from "uuid";
 import { getProvider } from "@/lib/provider-factory";
 import { findStyleById, findColorById } from "@/lib/style-data";
 import { ApiResponse, TransformResult, TransformResultItem } from "@/types";
+import { verifyAuth } from "@/lib/auth-helpers";
+import { adminDb } from "@/lib/firebase-admin";
+import { FieldValue } from "firebase-admin/firestore";
 
 export async function POST(request: NextRequest) {
   try {
+    // === 인증 확인 ===
+    const decoded = await verifyAuth(request);
+    if (!decoded) {
+      return NextResponse.json<ApiResponse<null>>(
+        { success: false, error: "로그인이 필요합니다." },
+        { status: 401 }
+      );
+    }
+
+    // === 유저 데이터 조회 ===
+    const userRef = adminDb.collection("users").doc(decoded.uid);
+    const userDoc = await userRef.get();
+    if (!userDoc.exists) {
+      return NextResponse.json<ApiResponse<null>>(
+        { success: false, error: "유저 정보를 찾을 수 없습니다." },
+        { status: 404 }
+      );
+    }
+
+    const userData = userDoc.data()!;
+    const isAdmin = userData.isAdmin === true;
+
+    // === 토큰 잔액 확인 (관리자 제외) ===
+    if (!isAdmin && (userData.tokens ?? 0) < 1) {
+      return NextResponse.json<ApiResponse<null>>(
+        { success: false, error: "TOKEN_EMPTY" },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     const {
       sourceBase64,
@@ -88,6 +123,27 @@ export async function POST(request: NextRequest) {
       colorPrompt,
       colorName,
       resultCount: Math.min(resultCount, 5),
+    });
+
+    // === 변환 성공 시 토큰 차감 (관리자 제외) ===
+    if (!isAdmin) {
+      await userRef.update({
+        tokens: FieldValue.increment(-1),
+        totalUsed: FieldValue.increment(1),
+      });
+    }
+
+    // === 사용 내역 기록 ===
+    await adminDb.collection("usageHistory").add({
+      uid: decoded.uid,
+      styleId,
+      styleName,
+      colorId: colorId || null,
+      colorName: colorName || null,
+      resultCount: output.resultDataUrls.length,
+      processingTimeMs: output.processingTimeMs,
+      isAdmin,
+      createdAt: FieldValue.serverTimestamp(),
     });
 
     // 결과 구성
