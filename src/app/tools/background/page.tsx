@@ -286,10 +286,17 @@ export default function BackgroundToolPage() {
                     </div>
                     <div
                       className="relative cursor-pointer"
-                      onClick={async () => {
+                      onClick={() => {
                         try {
-                          const res = await fetch(result.resultImageUrl);
-                          const blob = await res.blob();
+                          const [header, base64] = result.resultImageUrl.split(",");
+                          const mimeMatch = header.match(/:(.*?);/);
+                          const mime = mimeMatch ? mimeMatch[1] : "image/png";
+                          const binary = atob(base64);
+                          const bytes = new Uint8Array(binary.length);
+                          for (let i = 0; i < binary.length; i++) {
+                            bytes[i] = binary.charCodeAt(i);
+                          }
+                          const blob = new Blob([bytes], { type: mime });
                           const blobUrl = URL.createObjectURL(blob);
                           const a = document.createElement("a");
                           a.href = blobUrl;
@@ -297,7 +304,7 @@ export default function BackgroundToolPage() {
                           document.body.appendChild(a);
                           a.click();
                           document.body.removeChild(a);
-                          URL.revokeObjectURL(blobUrl);
+                          setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
                         } catch {
                           window.open(result.resultImageUrl, "_blank");
                         }

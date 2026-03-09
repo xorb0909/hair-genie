@@ -13,10 +13,18 @@ interface ResultDisplayProps {
 }
 
 export default function ResultDisplay({ result }: ResultDisplayProps) {
-  const handleDownload = async (imageUrl: string, index: number) => {
+  const handleDownload = (imageUrl: string, index: number) => {
     try {
-      const res = await fetch(imageUrl);
-      const blob = await res.blob();
+      // data URL에서 직접 Blob 생성 (모바일 호환)
+      const [header, base64] = imageUrl.split(",");
+      const mimeMatch = header.match(/:(.*?);/);
+      const mime = mimeMatch ? mimeMatch[1] : "image/png";
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      const blob = new Blob([bytes], { type: mime });
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
@@ -24,9 +32,9 @@ export default function ResultDisplay({ result }: ResultDisplayProps) {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      URL.revokeObjectURL(blobUrl);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
     } catch {
-      // Blob 실패 시 새 탭으로 열기 (모바일 폴백)
+      // 실패 시 새 탭으로 열기 (길게 눌러 저장)
       window.open(imageUrl, "_blank");
     }
   };
@@ -49,8 +57,8 @@ export default function ResultDisplay({ result }: ResultDisplayProps) {
         )}
       </div>
 
-      {/* 이미지 그리드: 원본 + 결과 3장 */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      {/* 이미지 그리드: 원본 + 결과 2장 */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {/* 원본 */}
         <div className="space-y-2">
           <p className="text-xs font-medium text-gray-500 text-center">원본</p>
@@ -86,7 +94,7 @@ export default function ResultDisplay({ result }: ResultDisplayProps) {
 
         {/* 결과가 아직 없을 때 플레이스홀더 */}
         {result.results.length === 0 &&
-          [1, 2, 3].map((n) => (
+          [1, 2].map((n) => (
             <div key={n} className="space-y-2">
               <p className="text-xs font-medium text-gray-400 text-center">
                 결과 {n}

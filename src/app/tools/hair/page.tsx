@@ -84,7 +84,7 @@ export default function HairToolPage() {
             selectedStyleId === "custom" ? customStyleText.trim() : undefined,
           enableColor,
           colorId: enableColor ? selectedColorId : undefined,
-          resultCount: 3,
+          resultCount: 2,
         }),
       });
 
