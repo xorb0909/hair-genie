@@ -2,31 +2,292 @@ export const BACKGROUND_PRESETS = [
   {
     id: "minecraft",
     name: "마인크래프트 스타일",
-    prompt: `Transform only the surroundings of the uploaded photo into a realistic Minecraft block style, without altering the subject at all — keep the person's face, body, pose, clothing, colors, lighting, and composition exactly the same. Convert the entire background environment into Minecraft blocks: iconic cubic geometry, large pixel textures, distinct voxel edges, and simplified materials (grass blocks, stone, wood planks, etc.) placed logically to match the real scene structure. Any objects, buildings, ground, trees, sky, or props should become Minecraft-style versions while staying consistent with the original spatial layout and perspective. Maintain clean block lighting and soft ambient shadows. Ensure there are no changes at all to the subject — no pixelation, no style change, no alterations to face, body, or proportions. Aim for a seamless fusion of Minecraft world and realistic subject. Hard Rules: Do not change the subject's appearance in any way. Do not cover or distort the subject with pixels or blocks. Preserve composition, camera angle, scale, and depth exactly as in the uploaded image.`,
+    prompt: `You are a professional photo compositor and concept artist specializing in Minecraft-style world transformation.
+
+TASK: Transform ONLY the background and environment of the uploaded photo into Minecraft block style. The main subject must remain completely untouched.
+
+SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- Do NOT alter the subject's face, skin, hair, body, clothing, or accessories in any way
+- Do NOT apply pixelation, voxel texture, or block patterns to the subject
+- Do NOT change the subject's pose, proportions, scale, or position in the frame
+- Do NOT add any Minecraft-style visual treatment to the subject
+- The subject must look like a real photograph placed inside a Minecraft world
+
+ENVIRONMENT TRANSFORMATION (APPLY TO EVERYTHING EXCEPT THE SUBJECT):
+- Convert all background elements (buildings, ground, sky, trees, props, walls, roads) into Minecraft block equivalents
+- Use authentic Minecraft block types: grass blocks (green top, dirt sides), stone bricks, oak/spruce wood planks, sand, gravel, glass panes, leaves
+- All blocks must be perfect cubes with 16x16 pixel textures
+- Maintain the original spatial layout, depth, and perspective — rebuild the scene in blocks, don't invent a new layout
+- Ground must be flat block layers; buildings must be cube-based rectangular structures
+- Trees must use Minecraft oak/birch/spruce style: cylindrical log trunk, square leaf clusters
+- Sky: Minecraft sky blue with blocky white clouds or pixelated sunset gradient
+- Water (if present): flat teal blocks with subtle animated tile appearance
+- Add Minecraft ambient lighting: flat, diffuse, no harsh shadows, consistent block face shading
+
+COMPOSITION & TECHNICAL:
+- Maintain the exact camera angle, zoom level, and framing from the original photo
+- Preserve depth of field — subject in foreground, Minecraft world receding behind
+- The boundary between the realistic subject and the Minecraft world must be clean and sharp
+- Final image should feel like the subject is physically standing inside a Minecraft world
+
+OUTPUT QUALITY: High resolution, clean block edges, vibrant Minecraft color palette, cinematic composition`,
   },
   {
     id: "lego",
     name: "레고 스타일",
-    prompt: `Use the uploaded reference image as the source. OVERALL STYLE & AESTHETIC: High quality cinematic LEGO photography with a macro lens feel. Mixed media realism: a fully photorealistic human subject integrated into a 100 percent brick built LEGO world. SUBJECT RULES (CRITICAL): The main human subject from the reference image must remain 100 percent photorealistic. Preserve original skin texture, pores, hair strands, facial features, and natural lighting on the person. Do NOT apply any plastic, toy, or LEGO texture to the human subject. OBJECT CONVERSION (CRITICAL): Every single object held by or touching the person must be replaced with its LEGO equivalent. This includes flowers, bouquets, bags, tools, accessories, or props. Flowers must be rebuilt using LEGO Botanical Collection style: Visible plastic petal pieces, Glossy ABS plastic material, Distinct LEGO stems and connectors. ENVIRONMENT RULES (MANDATORY): Analyze the original background and rebuild it entirely using LEGO bricks. Ground surfaces must use visible LEGO studs. Roads, walls, or flat surfaces must use LEGO smooth tiles. Trees, grass, and plants must be official LEGO foliage pieces with: Visible seams, Injection mold marks, Plastic geometry. MATERIALITY: All LEGO elements must have: Realistic plastic reflections, Subtle scratches and wear, High quality glossy ABS finish. COMPOSITION & CAMERA: Match the exact framing and camera angle of the reference image. Use shallow depth of field to emphasize the human subject while keeping LEGO details readable. LIGHTING: Cinematic studio lighting. Ensure light interacts differently with: Photorealistic human skin (soft, natural diffusion), LEGO plastic surfaces (specular highlights, glossy reflections). NEGATIVE PROMPT (STRICT): No real flowers, No organic petals, No real trees, No realistic fabric in the background, No blurred plastic, No toy-like skin, No plastic face.`,
+    prompt: `You are a professional photo compositor specializing in LEGO world integration photography.
+
+TASK: Keep the main human subject completely photorealistic. Transform everything else — the entire environment and all held/touching objects — into authentic LEGO brick constructions.
+
+SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- The human subject must remain 100% photorealistic
+- Preserve every detail: skin pores, hair strands, eye color, facial features, clothing fabric texture
+- Do NOT apply any plastic, glossy toy, or LEGO texture to the subject's skin, hair, or clothes
+- Do NOT alter the subject's face, body, pose, or proportions in any way
+- The subject should look like a real person photographed inside a LEGO set
+
+OBJECT TRANSFORMATION (ALL NON-SUBJECT ELEMENTS):
+- Every object the subject holds or touches must become its LEGO equivalent
+- Flowers → LEGO Botanical Collection style: ABS plastic petals, visible brick connectors, glossy stems
+- Bags, tools, accessories → rebuilt entirely from LEGO Technic or System bricks
+- No real-world objects remain in the scene — everything becomes LEGO
+
+ENVIRONMENT TRANSFORMATION:
+- Rebuild the entire background as a LEGO set constructed by a master builder
+- Ground: visible LEGO studs on top surface, smooth tiles for flat roads/floors
+- Walls and buildings: LEGO System bricks with visible stud grid and seam lines
+- Trees and plants: official LEGO foliage pieces — plastic leaf elements, visible injection mold marks, glossy green ABS
+- Sky: stylized LEGO backdrop or large flat LEGO panel
+- All surfaces must show: realistic ABS plastic reflections, subtle scuff marks and wear, glossy specular highlights
+
+LIGHTING & REALISM:
+- Cinematic macro photography lighting style
+- Light behaves differently on subject (soft natural skin diffusion) vs LEGO pieces (hard specular plastic highlights)
+- Shallow depth of field: subject in sharp focus, LEGO environment slightly blurred at edges
+- Color grading consistent between subject and environment
+
+COMPOSITION: Match exact framing and camera angle from the original photo. Subject is the clear focal point.
+
+STRICT NEGATIVES: No real flowers or organic elements in scene. No toy-like skin. No plastic face. No blurred LEGO pieces in foreground.
+
+OUTPUT QUALITY: Ultra-high detail, cinematic LEGO photography realism, seamless subject integration`,
   },
   {
     id: "clay",
     name: "클레이 스타일",
-    prompt: `Use the uploaded image as the only source of identity for the main subject. Core Transformation: Transform everything except the main subject into a handcrafted clay stop-motion world, as if the environment were built for a Laika or Aardman-style stop-motion film. Buildings, streets, sidewalks, floors, walls, furniture, vehicles, trees, props, background objects, and scenery → All rendered as sculpted clay models. Sky, clouds, lighting ambience → Stylized clay sky with soft, imperfect textures. Subject Preservation (STRICT): The main subject must remain 100% realistic and unchanged. Preserve: Face, skin texture, hair, clothing, accessories, Body proportions, pose, expression, Photographic realism and sharpness. No stylization applied to the subject. Clay / Stop-Motion Style Rules: Clay textures must look: Hand-molded, Slightly uneven, Soft, tactile, and imperfect. Visible: Finger smudges, Tool marks, Subtle seams where clay pieces meet. Shapes: Rounded edges, Chunky forms, Slight asymmetry (not perfectly straight). Lighting & Rendering: Stop-motion studio lighting: Soft directional light, Gentle shadows, Slight falloff and depth. Matte clay surfaces. No gloss unless appropriate (e.g., wet clay look on roads). Visual Contrast (IMPORTANT): Strong contrast between: Realistic subject, Clay-crafted environment. The subject should clearly feel "placed inside" a clay world. Camera & Composition: Match the original camera angle and framing from the uploaded image. Maintain natural perspective and depth. Ensure the subject remains the visual focal point. Negative Prompt (STRICT): No stylization on the subject, No cartoon or clay texture on skin, hair, or clothes, No plastic, rubber, or 3D CGI look, No voxel, LEGO, pixel, anime, or illustration styles, No smooth or digitally perfect surfaces. Output Quality: High detail, Cinematic stop-motion realism, Believable scale and spatial consistency.`,
+    prompt: `You are a professional stop-motion art director and compositor, specializing in Laika and Aardman-style clay animation worlds.
+
+TASK: Transform the entire environment into a handcrafted clay stop-motion world. The main subject must remain completely realistic and unchanged.
+
+SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- The main subject must remain 100% photorealistic — no exceptions
+- Preserve face, skin texture, hair, clothing, accessories exactly as in the original photo
+- Do NOT apply clay texture, smudging, or stop-motion stylization to the subject
+- Do NOT alter body proportions, pose, expression, or scale
+- Do NOT smooth, cartoon-ify, or digitally retouch the subject's appearance
+
+CLAY WORLD TRANSFORMATION (ALL BACKGROUND & ENVIRONMENT):
+- Rebuild every background element as a hand-sculpted clay miniature set
+- Buildings, walls, floors, streets → clay-sculpted architecture with visible hand-molding marks
+- Ground and roads → textured clay surfaces with subtle roller marks and imperfections
+- Trees, plants, grass → clay-formed organic shapes with slightly exaggerated chunky forms
+- Vehicles, signs, furniture, props → clay miniatures with rounded edges and simplified forms
+- Sky and clouds → stylized clay backdrop or painted clay sky panel
+
+CLAY TEXTURE DETAILS (CRITICAL FOR AUTHENTICITY):
+- Visible fingerprint smudges and thumb impressions on surfaces
+- Tool marks from sculpting tools (ridges, scraping lines)
+- Subtle seam lines where separate clay pieces were joined
+- Slight asymmetry and imperfection — nothing is perfectly straight or smooth
+- Rounded, chunky edges throughout — no sharp or digitally precise lines
+- Surface variation: some areas slightly rougher, some slightly smoother
+
+LIGHTING & ATMOSPHERE:
+- Stop-motion studio lighting: soft directional key light, gentle fill light, subtle rim light
+- Matte clay surfaces — minimal gloss unless depicting wet clay (roads, water)
+- Soft shadows with slight falloff consistent with small-scale set lighting
+- Warm, slightly desaturated color palette typical of Laika films
+
+VISUAL CONTRAST (ESSENTIAL):
+- Strong visual contrast between the photorealistic subject and the clay environment
+- Subject must feel "placed inside" the clay world, not merged with it
+- Clean compositing edge between subject and clay background
+
+COMPOSITION: Match original camera angle, framing, and perspective exactly.
+
+STRICT NEGATIVES: No stylization on subject. No cartoon or clay texture on skin or hair. No CGI plastic look. No voxel, LEGO, or pixel styles. No perfectly smooth digital surfaces.
+
+OUTPUT QUALITY: High detail, cinematic stop-motion realism, Laika/Aardman production quality`,
   },
   {
     id: "sims",
     name: "심즈 스타일",
-    prompt: `Use the uploaded image as the base reference. Core Instruction: Transform all surroundings in the image into The Sims–style interior / world, exactly like the official The Sims games. Do NOT transform the main subject. The main subject must remain fully realistic and unchanged. What to Transform (STRICT): Architecture and buildings, Interior walls, floors, ceilings, Furniture and decor, Streets, sidewalks, roads, Cars and vehicles, Sky, clouds, lighting environment, Plants, trees, terrain, ground, Background objects and props. Everything except the main subject should appear as if it exists inside The Sims game world. What NOT to Transform (STRICT): Main subject's face, body, skin texture, Main subject's clothing, hair, accessories, Main subject's pose, expression, proportions. Main subject must remain photorealistic and clearly separated from the stylized environment. The Sims Visual Style (VERY IMPORTANT): Match the official The Sims aesthetic: Clean, slightly exaggerated geometry, Smooth surfaces with subtle plastic-like finish, Soft global illumination and even lighting, Bright but balanced color palette, Simplified textures (no hyper-real detail), Rounded edges on furniture and architecture, Game-engine look (The Sims 4 style), Interiors should feel like a build/buy mode room, Exteriors should feel like a live neighborhood lot. Lighting & Atmosphere: Soft ambient lighting like in The Sims gameplay, No harsh shadows, Bright, cozy, evenly lit environment, Sky rendered in stylized Sims-style gradient with fluffy clouds. Composition Rules: Keep the original camera angle and framing, Preserve depth and perspective, Ensure the subject visually "belongs" in the space while staying realistic, The environment should clearly contrast the real subject. Quality & Realism Balance: Subject: real photo realism, Environment: game-engine Sims realism, Clean edges where subject meets environment (no melting or blending). Negative Prompt (STRICT): No pixel art, No voxel, LEGO, Minecraft, or clay styles, No anime, cartoon, or hand-drawn illustration, No painterly textures, No realism applied to surroundings, No stylization applied to the subject, No Sim plumbob above the subject's head. Output Goal: A realistic person placed inside a fully transformed Sims interior or Sims world, indistinguishable from an actual The Sims gameplay screenshot — except for the real human subject.`,
+    prompt: `You are a professional photo compositor and game environment artist specializing in The Sims 4 visual style.
+
+TASK: Transform the entire surrounding environment into The Sims 4 game world. The main subject must remain completely photorealistic and unchanged.
+
+SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- The main subject must remain 100% photorealistic
+- Preserve face, skin, hair, clothing, accessories, and body exactly as photographed
+- Do NOT apply game engine rendering, cel shading, or Sims-style stylization to the subject
+- Do NOT alter pose, expression, proportions, or position
+- Do NOT add a plumbob above the subject's head
+- The subject should look like a real person who has been placed inside a Sims game world
+
+ENVIRONMENT TRANSFORMATION (THE SIMS 4 STYLE):
+Reference: The Sims 4 official game aesthetic — Build/Buy mode quality
+
+Architecture:
+- Clean, slightly simplified geometry with smooth surface finish
+- Walls with subtle painted texture, large windows with slight plastic-like frames
+- Roofs with consistent tile or flat patterns
+- Doors and windows with slight exaggeration of scale typical to Sims style
+
+Interior (if applicable):
+- Furniture rebuilt in Sims catalog style: clean edges, slight cartoonish proportions
+- Floors with visible but simplified tile or wood plank patterns
+- Walls with Sims-style paint or wallpaper texture
+- Lighting fixtures as Sims buy mode objects
+
+Exterior (if applicable):
+- Neighborhood lot aesthetic: neat sidewalks, trimmed hedges, mailbox
+- Roads with clean lane markings
+- Trees and plants as official Sims foliage objects — slightly stylized, not hyper-realistic
+- Sky: Sims-style gradient sky with soft, rounded clouds
+
+LIGHTING & ATMOSPHERE:
+- Soft global illumination typical of Sims 4 gameplay mode
+- No harsh shadows — even, bright, slightly diffused lighting
+- Warm color temperature for interiors, neutral for exteriors
+- Slight plastic-like light reflection on surfaces (Sims engine characteristic)
+
+VISUAL CONTRAST:
+- Clear distinction between photorealistic subject and Sims-style environment
+- Clean compositing edge — no blending or color spill between subject and environment
+- Subject should look naturally "present" in the space
+
+COMPOSITION: Preserve original camera angle, framing, and depth exactly.
+
+STRICT NEGATIVES: No pixel art. No voxel, LEGO, Minecraft, or clay styles. No anime or hand-drawn look. No painterly textures. No hyper-realism in the environment. No stylization on the subject.
+
+OUTPUT QUALITY: High resolution, The Sims 4 game engine fidelity, seamless subject integration`,
   },
   {
     id: "pastel",
     name: "파스텔 일러스트 스타일",
-    prompt: `Transform the entire scene into a mixed-media illustration with hand-drawn cartoon overlays. Convert the buildings, windows, street lamps, bus, plants, sky, and ground into outlined cartoon sketches with bright, colorful fills. Add doodles to fill the background, swirling arrows around the subject(s), cartoon clouds in the sky, hearts, stars, panels, and playful sketch lines across the scene. Add climbing vines and decorative doodles to the lamp post and buildings. Keep the subject(s) fully realistic and untouched.`,
+    prompt: `You are a professional mixed-media illustrator specializing in pastel cartoon overlay art and hand-drawn animation backgrounds.
+
+TASK: Transform the entire surrounding environment into a vibrant hand-drawn pastel illustration world. The main subject must remain completely photorealistic and unchanged.
+
+SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- The main subject must remain 100% photorealistic
+- Preserve face, skin, hair, clothing, and body exactly as in the original photo
+- Do NOT apply illustration, cartoon, pastel, or sketch styling to the subject
+- Do NOT alter the subject's pose, proportions, or expression
+- The subject should look like a real person placed inside an illustrated world
+
+ENVIRONMENT TRANSFORMATION (PASTEL ILLUSTRATION STYLE):
+Convert all background elements into hand-drawn cartoon illustration style:
+
+Color Palette:
+- Soft pastel tones throughout: mint green, baby blue, blush pink, lavender, buttercream yellow, peach
+- Slightly desaturated but vibrant — not neon, not muted
+- Warm highlights and cool shadow tones
+
+Line Art:
+- Clean, confident hand-drawn outlines (2-4px weight) in dark brown or navy (not black)
+- Slightly imperfect, organic line quality — looks drawn by hand, not vector
+- Buildings, ground, objects all have visible outline strokes
+
+Background Elements:
+- Buildings → simplified cartoon architecture with rounded edges and pastel wall colors
+- Ground → flat pastel surface with simple texture lines
+- Sky → soft gradient pastel sky (pink-to-blue or peach-to-lavender) with hand-drawn fluffy clouds
+- Trees and plants → cute rounded cartoon shapes with simple leaf clusters, slightly wobbly outlines
+- Props and objects → simplified cartoon versions with clean fills and outlines
+
+Decorative Doodle Overlays (IMPORTANT FOR STYLE):
+- Floating hearts, stars (✦), sparkles, and small flower doodles scattered naturally around the scene
+- Swirling decorative lines or motion arrows around the subject suggesting energy and life
+- Small panel frames, speech bubble shapes, or bordered annotation boxes in corners
+- Climbing vine doodles on walls or lamp posts
+- Tiny dot patterns or hatching for ground shadow areas
+- All doodles drawn in the same hand-drawn line style, light pastel colors
+
+LIGHTING & ATMOSPHERE:
+- Flat, even illustration lighting — no harsh shadows
+- Soft drop shadows under objects (simple, slightly transparent)
+- Gentle glow or bloom effect around light sources (streetlamps, windows)
+- Overall warm, cheerful, storybook atmosphere
+
+VISUAL CONTRAST:
+- Strong contrast between photorealistic subject and illustrated environment
+- Clean compositing edge around the subject
+- Subject appears to "pop out" against the illustrated background
+
+COMPOSITION: Match original camera angle and framing exactly.
+
+STRICT NEGATIVES: No stylization on the subject. No anime face proportions. No harsh colors or dark tones. No 3D rendering. No digital vector look — must feel hand-drawn.
+
+OUTPUT QUALITY: High resolution, professional children's book illustration quality, warm and charming atmosphere`,
   },
   {
     id: "apocalypse",
     name: "지구 종말 스타일",
-    prompt: `Use the uploaded image as the only source of the main subject. Hard Rule: Do not change the subject's face, body, pose, expression, hairstyle, clothing, skin tone, or proportions in any way. The subject must remain pixel identical in identity and pose. No beautification, no stylization, no redraw, no facial alteration. Transformation Goal: Transform only the surrounding environment into a cinematic dystopian end of the world setting, while keeping the subject untouched and fully recognizable. Environment & World Design: Replace the background with a post apocalyptic landscape. Crumbling buildings, collapsed structures, broken roads, exposed rebar. Burned out vehicles, debris, shattered glass, scattered rubble. Smoke plumes rising in the distance. Ash and dust in the air. Dark storm clouds, heavy overcast sky, polluted atmosphere. Faint orange or red glow on the horizon from distant fires. Subtle embers floating in the air. Optional cracked ground or flooded streets depending on scene logic. Lighting & Atmosphere: Moody, low key cinematic lighting. High contrast with deep shadows. Cool desaturated tones with selective warm highlights from fire or explosions. Volumetric fog and haze for depth. Directional light consistent with the original photo's lighting. No light spill or color cast affecting the subject's skin or clothing. Composition Rules: Preserve original camera angle, framing, and perspective. Subject stays in the exact same position in the frame. Environmental destruction must feel physically integrated behind the subject. No objects overlapping or covering the subject. Texture & Realism: Hyper realistic textures for rubble, concrete, metal, smoke, and dust. Natural scale and depth. No surreal elements unless explicitly dystopian. No sci fi armor, no fantasy creatures, no zombies unless requested. Negative Prompt: Do not: Alter the subject's face, body, clothing, or pose, Add damage, dirt, blood, or effects to the subject, Stylize the subject, Change camera angle or zoom, Turn the subject into a character or illustration, Add text, logos, or UI elements. Output: Ultra realistic, cinematic, high detail dystopian environment with the original subject preserved perfectly in contrast against an end of the world backdrop.`,
+    prompt: `You are a professional concept artist and VFX compositor specializing in post-apocalyptic cinematic environments.
+
+TASK: Transform the entire surrounding environment into a cinematic dystopian post-apocalyptic world. The main subject must remain completely unchanged and photorealistic.
+
+SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- The main subject must remain completely unchanged — face, body, skin tone, hair, clothing, accessories, pose, expression
+- Do NOT add dirt, blood, wounds, burns, or damage effects to the subject
+- Do NOT change the subject's clothing color or texture
+- Do NOT apply any color grading, desaturation, or stylization to the subject
+- Do NOT cover or obscure the subject with debris, smoke, or environmental elements
+- The subject must appear as a clean, untouched person standing in contrast against the destroyed world
+
+ENVIRONMENT TRANSFORMATION (POST-APOCALYPTIC CINEMATIC):
+Architecture & Structures:
+- Crumbling concrete buildings with collapsed sections and exposed steel rebar
+- Shattered windows with jagged glass edges and dark interiors
+- Cracked and broken road surfaces with deep fissures and upheaved asphalt
+- Abandoned burned-out vehicles: rusted, window-less, charred shells
+- Toppled signage, broken lamp posts, collapsed overpass sections
+- Rubble piles of concrete chunks, broken brick, twisted metal debris
+
+Atmosphere & Sky:
+- Heavy overcast sky: dark storm clouds, deep grey and bruised purple tones
+- Distant horizon glow: orange-red light from unseen fires
+- Smoke columns rising from multiple points in the background
+- Fine ash particles and dust floating in the air mid-frame
+- Volumetric haze and atmospheric fog for environmental depth
+- Faint embers drifting upward in background
+
+Ground & Details:
+- Ash-covered surfaces with wind-scattered debris
+- Broken glass, scattered papers, abandoned personal belongings
+- Flooded low areas with dark, murky still water (if scene allows)
+- Cracked earth or scorched ground texture
+
+LIGHTING & COLOR:
+- Moody, cinematic low-key lighting
+- Primary light source: diffused overcast ambient + warm glow from distant fires
+- Cool desaturated overall palette with selective warm orange/amber highlights from fire sources
+- Deep shadows with subtle blue-grey fill light
+- Volumetric light rays through smoke and dust
+- Light direction must match the original photo's light source on the subject
+
+COMPOSITING RULES:
+- Subject must remain the clear visual focal point
+- Environmental destruction recedes behind the subject — nothing overlaps the subject
+- Clean, sharp compositing edge around the subject
+- No color spill or atmospheric haze affecting the subject's appearance
+- Depth layering: subject sharp foreground, environment with subtle depth blur at far distance
+
+COMPOSITION: Preserve original camera angle, framing, perspective, and depth of field exactly.
+
+STRICT NEGATIVES: Do not alter the subject in any way. No zombies or monsters unless requested. No sci-fi elements. No text or UI. No color grading on the subject. No debris overlapping the subject.
+
+OUTPUT QUALITY: Ultra-realistic, Hollywood VFX quality, cinematic dystopian atmosphere, high detail rubble and environmental textures`,
   },
 ];
