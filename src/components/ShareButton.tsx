@@ -48,7 +48,7 @@ export default function ShareButton({ resultImageUrl }: ShareButtonProps) {
   };
 
   const shareToKakao = () => {
-    const shareUrl = `https://hair-genie-wine.vercel.app/`;
+    const shareUrl = `https://ddokddak-ai.vercel.app/`;
     const text = "AI로 헤어스타일 미리보기! Hair Genie에서 나만의 스타일을 찾아보세요 ✂️";
 
     // 카카오톡 공유 (모바일에서는 카카오톡 앱으로, 데스크톱에서는 웹 공유)
@@ -63,7 +63,7 @@ export default function ShareButton({ resultImageUrl }: ShareButtonProps) {
   const shareToInstagram = () => {
     // 인스타그램은 URL 공유가 제한적이므로 클립보드 복사 후 인스타 열기
     const shareText =
-      "AI로 헤어스타일 미리보기! ✂️\nhttps://hair-genie-wine.vercel.app/";
+      "AI로 헤어스타일 미리보기! ✂️\nhttps://ddokddak-ai.vercel.app/";
 
     navigator.clipboard.writeText(shareText).then(() => {
       alert("링크가 복사되었어요! 인스타그램 스토리에 붙여넣기 해주세요.");

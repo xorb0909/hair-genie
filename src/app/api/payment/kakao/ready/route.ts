@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     }
 
     const orderId = `${packageId}_${decoded.uid.slice(0, 8)}_${Date.now()}`;
-    const origin = request.headers.get("origin") || request.headers.get("referer")?.replace(/\/$/, "") || "https://hair-genie-wine.vercel.app";
+    const origin = request.headers.get("origin") || request.headers.get("referer")?.replace(/\/$/, "") || "https://ddokddak-ai.vercel.app";
 
     const res = await fetch("https://open-api.kakaopay.com/online/v1/payment/ready", {
       method: "POST",
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
         cid: "TC0ONETIME", // 테스트용 CID
         partner_order_id: orderId,
         partner_user_id: decoded.uid,
-        item_name: `Hair Genie ${pkg.label}`,
+        item_name: `뚝딱AI ${pkg.label}`,
         quantity: 1,
         total_amount: pkg.price,
         tax_free_amount: 0,

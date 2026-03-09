@@ -110,7 +110,7 @@ export default function OgImage() {
             color: "#9ca3af",
           }}
         >
-          hair-genie-wine.vercel.app
+          ddokddak-ai.vercel.app
         </div>
       </div>
     ),

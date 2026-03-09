@@ -35,7 +35,7 @@ export default function MyPage() {
 
   const copyReferralLink = () => {
     if (!userData) return;
-    const link = `https://hair-genie-wine.vercel.app/?ref=${userData.referralCode}`;
+    const link = `https://ddokddak-ai.vercel.app/?ref=${userData.referralCode}`;
     navigator.clipboard.writeText(link);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -134,7 +134,7 @@ export default function MyPage() {
           <div className="flex gap-2">
             <input
               readOnly
-              value={`https://hair-genie-wine.vercel.app/?ref=${userData.referralCode}`}
+              value={`https://ddokddak-ai.vercel.app/?ref=${userData.referralCode}`}
               className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-600"
             />
             <button

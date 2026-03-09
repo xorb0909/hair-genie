@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/admin/", "/payment/"],
     },
-    sitemap: "https://hair-genie-wine.vercel.app/sitemap.xml",
+    sitemap: "https://ddokddak-ai.vercel.app/sitemap.xml",
   };
 }

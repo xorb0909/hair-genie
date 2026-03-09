@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: "뚝딱 AI 에디터 - 사진 무드 변환 AI 툴",
     description:
       "헤어스타일 변환, 마인크래프트·레고·클레이 스타일 배경 변경 등 AI로 사진의 무드를 뚝딱 바꿔보세요",
-    url: "https://hair-genie-wine.vercel.app",
+    url: "https://ddokddak-ai.vercel.app",
     siteName: "뚝딱 AI 에디터",
     locale: "ko_KR",
     type: "website",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
       "헤어스타일 변환, 마인크래프트·레고·클레이 스타일 배경 변경 등 AI로 사진의 무드를 뚝딱 바꿔보세요",
   },
   alternates: {
-    canonical: "https://hair-genie-wine.vercel.app",
+    canonical: "https://ddokddak-ai.vercel.app",
   },
   robots: {
     index: true,
@@ -57,7 +57,7 @@ const jsonLd = {
   name: "뚝딱 AI 에디터",
   description:
     "헤어스타일 변환, 마인크래프트·레고·클레이 스타일 배경 변경 등 AI로 사진의 무드를 뚝딱 바꿔보세요",
-  url: "https://hair-genie-wine.vercel.app",
+  url: "https://ddokddak-ai.vercel.app",
   applicationCategory: "MultimediaApplication",
   operatingSystem: "Web",
   offers: {
