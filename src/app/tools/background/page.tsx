@@ -297,13 +297,27 @@ export default function BackgroundToolPage() {
                   </div>
                   {/* 다운로드 버튼 */}
                   <div className="p-4">
-                    <a
-                      href={result.resultImageUrl}
-                      download={`background-${result.id}.png`}
+                    <button
+                      onClick={async () => {
+                        try {
+                          const res = await fetch(result.resultImageUrl);
+                          const blob = await res.blob();
+                          const blobUrl = URL.createObjectURL(blob);
+                          const a = document.createElement("a");
+                          a.href = blobUrl;
+                          a.download = `background-${result.id}.png`;
+                          document.body.appendChild(a);
+                          a.click();
+                          document.body.removeChild(a);
+                          URL.revokeObjectURL(blobUrl);
+                        } catch {
+                          window.open(result.resultImageUrl, "_blank");
+                        }
+                      }}
                       className="w-full block text-center py-2.5 rounded-xl bg-blue-50 text-blue-600 text-sm font-medium hover:bg-blue-100 transition-colors"
                     >
                       결과 이미지 다운로드
-                    </a>
+                    </button>
                   </div>
                 </div>
               ))

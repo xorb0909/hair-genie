@@ -13,16 +13,21 @@ interface ResultDisplayProps {
 }
 
 export default function ResultDisplay({ result }: ResultDisplayProps) {
-  const handleDownload = (imageUrl: string, index: number) => {
+  const handleDownload = async (imageUrl: string, index: number) => {
     try {
+      const res = await fetch(imageUrl);
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = imageUrl;
+      a.href = blobUrl;
       a.download = `hairstyle-result-${result.id.slice(0, 8)}-${index + 1}.png`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
     } catch {
-      alert("다운로드에 실패했습니다. 다시 시도해주세요.");
+      // Blob 실패 시 새 탭으로 열기 (모바일 폴백)
+      window.open(imageUrl, "_blank");
     }
   };
 
