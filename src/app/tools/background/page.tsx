@@ -284,20 +284,8 @@ export default function BackgroundToolPage() {
                         원본
                       </span>
                     </div>
-                    <div className="relative">
-                      <img
-                        src={result.resultImageUrl}
-                        alt="결과"
-                        className="w-full aspect-square object-cover"
-                      />
-                      <span className="absolute top-2 left-2 bg-blue-500/80 text-white text-[10px] px-2 py-0.5 rounded-full">
-                        결과
-                      </span>
-                    </div>
-                  </div>
-                  {/* 다운로드 버튼 */}
-                  <div className="p-4">
-                    <button
+                    <div
+                      className="relative cursor-pointer"
                       onClick={async () => {
                         try {
                           const res = await fetch(result.resultImageUrl);
@@ -314,11 +302,21 @@ export default function BackgroundToolPage() {
                           window.open(result.resultImageUrl, "_blank");
                         }
                       }}
-                      className="w-full block text-center py-2.5 rounded-xl bg-blue-50 text-blue-600 text-sm font-medium hover:bg-blue-100 transition-colors"
+                      title="클릭하면 다운로드됩니다"
                     >
-                      결과 이미지 다운로드
-                    </button>
+                      <img
+                        src={result.resultImageUrl}
+                        alt="결과"
+                        className="w-full aspect-square object-cover"
+                      />
+                      <span className="absolute top-2 left-2 bg-blue-500/80 text-white text-[10px] px-2 py-0.5 rounded-full">
+                        결과
+                      </span>
+                    </div>
                   </div>
+                  <p className="text-xs text-gray-400 text-center py-2">
+                    결과 이미지를 클릭하면 다운로드할 수 있어요
+                  </p>
                 </div>
               ))
             )}
