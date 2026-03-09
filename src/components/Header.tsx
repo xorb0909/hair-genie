@@ -35,11 +35,8 @@ export default function Header({ onOpenPayment }: HeaderProps) {
         {/* 로고 */}
         <a href="/" className="flex items-center gap-2">
           <h1 className="text-xl font-bold text-gray-900">
-            <span className="text-violet-600">Hair</span> Genie
+            <span className="text-violet-600">AI</span> Studio
           </h1>
-          <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
-            v0.3
-          </span>
         </a>
 
         {/* 우측: 유저 정보 */}

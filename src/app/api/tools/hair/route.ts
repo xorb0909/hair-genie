@@ -1,5 +1,5 @@
 // ============================================
-// POST /api/transform - 헤어스타일 변환 API
+// POST /api/tools/hair - 헤어스타일 변환 API
 // - 업로드된 사진(base64) + 스타일/색상 선택으로 Gemini 변환 실행
 // - 토큰 잔액 확인 + 차감 (서버사이드)
 // - 관리자는 토큰 차감 없이 무제한
@@ -136,6 +136,7 @@ export async function POST(request: NextRequest) {
     // === 사용 내역 기록 ===
     await adminDb.collection("usageHistory").add({
       uid: decoded.uid,
+      toolId: "hair",
       styleId,
       styleName,
       colorId: colorId || null,

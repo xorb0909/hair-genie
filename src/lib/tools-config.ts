@@ -1,0 +1,32 @@
+export const TOOLS = [
+  {
+    id: "hair",
+    name: "헤어스타일 변환",
+    description: "AI로 원하는 헤어스타일을 가상으로 체험해보세요",
+    icon: "💇",
+    path: "/tools/hair",
+    tokensPerUse: 1,
+    badge: null,
+    available: true,
+  },
+  {
+    id: "background",
+    name: "배경 변경",
+    description: "사진 배경을 원하는 이미지로 자연스럽게 교체해보세요",
+    icon: "🖼️",
+    path: "/tools/background",
+    tokensPerUse: 1,
+    badge: "NEW" as const,
+    available: true,
+  },
+  {
+    id: "makeup",
+    name: "메이크업 시뮬레이터",
+    description: "다양한 메이크업을 가상으로 체험해보세요",
+    icon: "💄",
+    path: "/tools/makeup",
+    tokensPerUse: 2,
+    badge: "SOON" as const,
+    available: false,
+  },
+];

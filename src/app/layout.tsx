@@ -14,32 +14,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "헤어지니 - AI 헤어스타일 합성 시뮬레이터",
+  title: "AI Studio - AI 뷰티 툴 모음",
   description:
-    "AI로 내 얼굴에 원하는 헤어스타일을 합성해보세요. 헤어지니에서 가상으로 헤어스타일을 체험하고 나에게 맞는 스타일을 찾아보세요.",
+    "헤어스타일 변환, 배경 변경 등 다양한 AI 뷰티 툴을 한 곳에서 체험하세요",
   keywords: [
+    "AI 뷰티 툴",
     "헤어스타일 합성",
     "AI 헤어 시뮬레이터",
-    "헤어 가상 체험",
+    "배경 변경",
+    "AI 사진 편집",
     "헤어스타일 변환",
-    "AI 헤어 추천",
-    "헤어스타일 미리보기",
-    "가상 헤어",
+    "AI 뷰티",
   ],
   openGraph: {
-    title: "헤어지니 - AI 헤어스타일 합성 시뮬레이터",
+    title: "AI Studio - AI 뷰티 툴 모음",
     description:
-      "AI로 내 얼굴에 원하는 헤어스타일을 합성해보세요. 가상으로 헤어스타일을 체험하고 나에게 맞는 스타일을 찾아보세요.",
+      "헤어스타일 변환, 배경 변경 등 다양한 AI 뷰티 툴을 한 곳에서 체험하세요",
     url: "https://hair-genie-wine.vercel.app",
-    siteName: "헤어지니 Hair Genie",
+    siteName: "AI Studio",
     locale: "ko_KR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "헤어지니 - AI 헤어스타일 합성 시뮬레이터",
+    title: "AI Studio - AI 뷰티 툴 모음",
     description:
-      "AI로 내 얼굴에 원하는 헤어스타일을 합성해보세요. 가상으로 헤어스타일을 체험하고 나에게 맞는 스타일을 찾아보세요.",
+      "헤어스타일 변환, 배경 변경 등 다양한 AI 뷰티 툴을 한 곳에서 체험하세요",
   },
   alternates: {
     canonical: "https://hair-genie-wine.vercel.app",
@@ -54,10 +54,9 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "헤어지니",
-  alternateName: "Hair Genie",
+  name: "AI Studio",
   description:
-    "AI로 내 얼굴에 원하는 헤어스타일을 합성해보세요. 가상으로 헤어스타일을 체험하고 나에게 맞는 스타일을 찾아보세요.",
+    "헤어스타일 변환, 배경 변경 등 다양한 AI 뷰티 툴을 한 곳에서 체험하세요",
   url: "https://hair-genie-wine.vercel.app",
   applicationCategory: "LifestyleApplication",
   operatingSystem: "Web",
@@ -69,9 +68,9 @@ const jsonLd = {
   },
   featureList: [
     "AI 헤어스타일 합성",
+    "AI 배경 변경",
     "가상 헤어 체험",
-    "다양한 헤어스타일 추천",
-    "염색 색상 시뮬레이션",
+    "다양한 AI 뷰티 툴",
   ],
   inLanguage: "ko",
 };
