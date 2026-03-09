@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { sourceBase64, sourceMimeType, presetId, customPrompt } = body;
+    const { sourceBase64, sourceMimeType, presetId } = body;
 
     // 필수 파라미터 검증
     if (!sourceBase64 || !sourceMimeType) {
@@ -65,26 +65,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 배경 프롬프트 결정
-    let backgroundPrompt: string;
-    let backgroundName: string;
-
-    if (presetId) {
-      const preset = BACKGROUND_PRESETS.find((p) => p.id === presetId);
-      if (!preset) {
-        return NextResponse.json<ApiResponse<null>>(
-          { success: false, error: "존재하지 않는 배경 프리셋입니다." },
-          { status: 400 }
-        );
-      }
-      backgroundPrompt = preset.prompt;
-      backgroundName = preset.name;
-    } else if (customPrompt && customPrompt.trim().length > 0) {
-      backgroundPrompt = customPrompt.trim();
-      backgroundName = "직접 입력";
-    } else {
+    if (!presetId) {
       return NextResponse.json<ApiResponse<null>>(
-        { success: false, error: "배경을 선택하거나 직접 입력해주세요." },
+        { success: false, error: "스타일을 선택해주세요." },
+        { status: 400 }
+      );
+    }
+
+    const preset = BACKGROUND_PRESETS.find((p) => p.id === presetId);
+    if (!preset) {
+      return NextResponse.json<ApiResponse<null>>(
+        { success: false, error: "존재하지 않는 스타일입니다." },
         { status: 400 }
       );
     }
@@ -95,15 +86,13 @@ export async function POST(request: NextRequest) {
       throw new Error("GEMINI_API_KEY 환경변수가 설정되지 않았습니다.");
     }
 
+    const backgroundPrompt = preset.prompt;
+    const backgroundName = preset.name;
+
     const client = new GoogleGenAI({ apiKey });
     const startTime = Date.now();
 
-    const prompt =
-      `Change the background of this photo to: ${backgroundPrompt}. ` +
-      `Keep the subject (person) completely intact and natural-looking. ` +
-      `Make the composite realistic with proper lighting and shadows.`;
-
-    console.log(`[Background] 프롬프트: ${prompt}`);
+    console.log(`[Background] 스타일: ${backgroundName}`);
 
     const response = await client.models.generateContent({
       model: "gemini-2.5-flash-image",
@@ -111,7 +100,7 @@ export async function POST(request: NextRequest) {
         {
           role: "user",
           parts: [
-            { text: prompt },
+            { text: backgroundPrompt },
             {
               inlineData: {
                 mimeType: sourceMimeType,

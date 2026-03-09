@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "헤어지니 - AI 헤어스타일 합성 시뮬레이터";
+export const alt = "뚝딱 AI 에디터 - 사진 무드 변환 AI 툴";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -46,7 +46,7 @@ export default function OgImage() {
             fontSize: "40px",
           }}
         >
-          ✂️
+          🪄
         </div>
 
         {/* 타이틀 */}
@@ -59,10 +59,10 @@ export default function OgImage() {
           }}
         >
           <span style={{ fontSize: "52px", fontWeight: 800, color: "#7c3aed" }}>
-            Hair
+            뚝딱
           </span>
           <span style={{ fontSize: "52px", fontWeight: 800, color: "#1f2937" }}>
-            Genie
+            AI 에디터
           </span>
         </div>
 
@@ -74,7 +74,7 @@ export default function OgImage() {
             marginBottom: "40px",
           }}
         >
-          AI 헤어스타일 합성 시뮬레이터
+          AI로 사진의 무드를 뚝딱 바꿔보세요
         </div>
 
         {/* 기능 태그들 */}
@@ -84,7 +84,7 @@ export default function OgImage() {
             gap: "12px",
           }}
         >
-          {["헤어스타일 합성", "가상 체험", "염색 시뮬레이션"].map((tag) => (
+          {["헤어스타일 변환", "배경 무드 변경", "마인크래프트·레고·클레이"].map((tag) => (
             <div
               key={tag}
               style={{

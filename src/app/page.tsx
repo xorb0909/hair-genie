@@ -29,10 +29,10 @@ export default function Home() {
         {/* 히어로 섹션 */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">
-            AI로 나를 꾸며보세요
+            AI로 사진의 무드를 뚝딱 바꿔보세요
           </h2>
           <p className="text-gray-500 text-base">
-            헤어스타일 변환, 배경 변경 등 다양한 AI 뷰티 툴을 한 곳에서 체험하세요
+            헤어스타일 변환, 마인크래프트·레고·클레이 스타일 배경 변경 등 다양한 AI 편집 툴
           </p>
         </div>
 
@@ -59,7 +59,7 @@ export default function Home() {
       <footer className="border-t border-gray-100 mt-16">
         <div className="max-w-5xl mx-auto px-4 py-6 text-center">
           <p className="text-xs text-gray-400">
-            AI Studio - AI 뷰티 툴 모음
+            뚝딱 AI 에디터 - 사진 무드 변환 AI 툴
           </p>
           <p className="text-[10px] text-gray-300 mt-1">
             결과 이미지는 참고용이며 실제와 차이가 있을 수 있습니다.

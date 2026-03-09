@@ -35,7 +35,7 @@ export default function Header({ onOpenPayment }: HeaderProps) {
         {/* 로고 */}
         <a href="/" className="flex items-center gap-2">
           <h1 className="text-xl font-bold text-gray-900">
-            <span className="text-violet-600">AI</span> Studio
+            <span className="text-violet-600">뚝딱</span> AI 에디터
           </h1>
         </a>
 

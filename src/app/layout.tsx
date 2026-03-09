@@ -14,32 +14,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Studio - AI 뷰티 툴 모음",
+  title: "뚝딱 AI 에디터 - 사진 무드 변환 AI 툴",
   description:
-    "헤어스타일 변환, 배경 변경 등 다양한 AI 뷰티 툴을 한 곳에서 체험하세요",
+    "헤어스타일 변환, 마인크래프트·레고·클레이 스타일 배경 변경 등 AI로 사진의 무드를 뚝딱 바꿔보세요",
   keywords: [
-    "AI 뷰티 툴",
-    "헤어스타일 합성",
-    "AI 헤어 시뮬레이터",
-    "배경 변경",
     "AI 사진 편집",
-    "헤어스타일 변환",
-    "AI 뷰티",
+    "사진 무드 변환",
+    "헤어스타일 합성",
+    "마인크래프트 스타일",
+    "레고 스타일",
+    "AI 배경 변경",
+    "뚝딱 AI 에디터",
   ],
   openGraph: {
-    title: "AI Studio - AI 뷰티 툴 모음",
+    title: "뚝딱 AI 에디터 - 사진 무드 변환 AI 툴",
     description:
-      "헤어스타일 변환, 배경 변경 등 다양한 AI 뷰티 툴을 한 곳에서 체험하세요",
+      "헤어스타일 변환, 마인크래프트·레고·클레이 스타일 배경 변경 등 AI로 사진의 무드를 뚝딱 바꿔보세요",
     url: "https://hair-genie-wine.vercel.app",
-    siteName: "AI Studio",
+    siteName: "뚝딱 AI 에디터",
     locale: "ko_KR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Studio - AI 뷰티 툴 모음",
+    title: "뚝딱 AI 에디터 - 사진 무드 변환 AI 툴",
     description:
-      "헤어스타일 변환, 배경 변경 등 다양한 AI 뷰티 툴을 한 곳에서 체험하세요",
+      "헤어스타일 변환, 마인크래프트·레고·클레이 스타일 배경 변경 등 AI로 사진의 무드를 뚝딱 바꿔보세요",
   },
   alternates: {
     canonical: "https://hair-genie-wine.vercel.app",
@@ -54,11 +54,11 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "AI Studio",
+  name: "뚝딱 AI 에디터",
   description:
-    "헤어스타일 변환, 배경 변경 등 다양한 AI 뷰티 툴을 한 곳에서 체험하세요",
+    "헤어스타일 변환, 마인크래프트·레고·클레이 스타일 배경 변경 등 AI로 사진의 무드를 뚝딱 바꿔보세요",
   url: "https://hair-genie-wine.vercel.app",
-  applicationCategory: "LifestyleApplication",
+  applicationCategory: "MultimediaApplication",
   operatingSystem: "Web",
   offers: {
     "@type": "Offer",
@@ -68,9 +68,9 @@ const jsonLd = {
   },
   featureList: [
     "AI 헤어스타일 합성",
-    "AI 배경 변경",
-    "가상 헤어 체험",
-    "다양한 AI 뷰티 툴",
+    "마인크래프트 스타일 배경 변환",
+    "레고 스타일 배경 변환",
+    "사진 무드 변환",
   ],
   inLanguage: "ko",
 };

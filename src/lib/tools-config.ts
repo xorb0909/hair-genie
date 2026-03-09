@@ -11,9 +11,9 @@ export const TOOLS = [
   },
   {
     id: "background",
-    name: "배경 변경",
-    description: "사진 배경을 원하는 이미지로 자연스럽게 교체해보세요",
-    icon: "🖼️",
+    name: "배경 무드 변경",
+    description: "마인크래프트, 레고, 클레이 등 다양한 스타일로 배경을 바꿔보세요",
+    icon: "🎨",
     path: "/tools/background",
     tokensPerUse: 1,
     badge: "NEW" as const,
