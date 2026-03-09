@@ -49,7 +49,7 @@ export default function ShareButton({ resultImageUrl }: ShareButtonProps) {
 
   const shareToKakao = () => {
     const shareUrl = `https://ddokddak-ai.vercel.app/`;
-    const text = "AI로 헤어스타일 미리보기! Hair Genie에서 나만의 스타일을 찾아보세요 ✂️";
+    const text = "AI로 사진 무드 변환! 뚝딱 AI 에디터에서 나만의 스타일을 찾아보세요 🪄";
 
     // 카카오톡 공유 (모바일에서는 카카오톡 앱으로, 데스크톱에서는 웹 공유)
     const kakaoShareUrl = `https://sharer.kakao.com/talk/friends/picker/link?url=${encodeURIComponent(
