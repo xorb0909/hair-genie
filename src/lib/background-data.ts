@@ -2,12 +2,16 @@ export const BACKGROUND_PRESETS = [
   {
     id: "minecraft",
     name: "마인크래프트 스타일",
-    prompt: `You are a professional photo compositor and concept artist specializing in Minecraft-style world transformation.
+    prompt: `⚠️ CRITICAL INSTRUCTION — READ FIRST: The subject's face must be PIXEL-IDENTICAL to the original photo. Do NOT regenerate, redraw, beautify, or alter the face in any way. Copy the face exactly as-is. This is the #1 priority above all other instructions.
+
+You are a professional photo compositor and concept artist specializing in Minecraft-style world transformation.
 
 TASK: Transform ONLY the background and environment of the uploaded photo into Minecraft block style. The main subject must remain completely untouched.
 
-SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
-- Do NOT alter the subject's face, skin, hair, body, clothing, or accessories in any way
+FACE & SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- The subject's face must remain EXACTLY identical to the original — same eyes, nose, mouth, jawline, skin tone, wrinkles, blemishes, everything
+- Do NOT regenerate or redraw the face — preserve the original pixels of the face region
+- Do NOT alter the subject's skin, hair, body, clothing, or accessories in any way
 - Do NOT apply pixelation, voxel texture, or block patterns to the subject
 - Do NOT change the subject's pose, proportions, scale, or position in the frame
 - Do NOT add any Minecraft-style visual treatment to the subject
@@ -30,16 +34,22 @@ COMPOSITION & TECHNICAL:
 - The boundary between the realistic subject and the Minecraft world must be clean and sharp
 - Final image should feel like the subject is physically standing inside a Minecraft world
 
-OUTPUT QUALITY: High resolution, clean block edges, vibrant Minecraft color palette, cinematic composition`,
+OUTPUT QUALITY: High resolution, clean block edges, vibrant Minecraft color palette, cinematic composition
+
+⚠️ FINAL REMINDER: The subject's face must be PIXEL-IDENTICAL to the uploaded photo. If the face looks even slightly different, the output is a failure. Do NOT redraw or regenerate the face under any circumstances.`,
   },
   {
     id: "lego",
     name: "레고 스타일",
-    prompt: `You are a professional photo compositor specializing in LEGO world integration photography.
+    prompt: `⚠️ CRITICAL INSTRUCTION — READ FIRST: The subject's face must be PIXEL-IDENTICAL to the original photo. Do NOT regenerate, redraw, beautify, or alter the face in any way. Copy the face exactly as-is. This is the #1 priority above all other instructions.
+
+You are a professional photo compositor specializing in LEGO world integration photography.
 
 TASK: Keep the main human subject completely photorealistic. Transform everything else — the entire environment and all held/touching objects — into authentic LEGO brick constructions.
 
-SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+FACE & SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- The subject's face must remain EXACTLY identical to the original — same eyes, nose, mouth, jawline, skin tone, wrinkles, blemishes, everything
+- Do NOT regenerate or redraw the face — preserve the original pixels of the face region
 - The human subject must remain 100% photorealistic
 - Preserve every detail: skin pores, hair strands, eye color, facial features, clothing fabric texture
 - Do NOT apply any plastic, glossy toy, or LEGO texture to the subject's skin, hair, or clothes
@@ -70,16 +80,22 @@ COMPOSITION: Match exact framing and camera angle from the original photo. Subje
 
 STRICT NEGATIVES: No real flowers or organic elements in scene. No toy-like skin. No plastic face. No blurred LEGO pieces in foreground.
 
-OUTPUT QUALITY: Ultra-high detail, cinematic LEGO photography realism, seamless subject integration`,
+OUTPUT QUALITY: Ultra-high detail, cinematic LEGO photography realism, seamless subject integration
+
+⚠️ FINAL REMINDER: The subject's face must be PIXEL-IDENTICAL to the uploaded photo. If the face looks even slightly different, the output is a failure. Do NOT redraw or regenerate the face under any circumstances.`,
   },
   {
     id: "clay",
     name: "클레이 스타일",
-    prompt: `You are a professional stop-motion art director and compositor, specializing in Laika and Aardman-style clay animation worlds.
+    prompt: `⚠️ CRITICAL INSTRUCTION — READ FIRST: The subject's face must be PIXEL-IDENTICAL to the original photo. Do NOT regenerate, redraw, beautify, or alter the face in any way. Copy the face exactly as-is. This is the #1 priority above all other instructions.
+
+You are a professional stop-motion art director and compositor, specializing in Laika and Aardman-style clay animation worlds.
 
 TASK: Transform the entire environment into a handcrafted clay stop-motion world. The main subject must remain completely realistic and unchanged.
 
-SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+FACE & SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- The subject's face must remain EXACTLY identical to the original — same eyes, nose, mouth, jawline, skin tone, wrinkles, blemishes, everything
+- Do NOT regenerate or redraw the face — preserve the original pixels of the face region
 - The main subject must remain 100% photorealistic — no exceptions
 - Preserve face, skin texture, hair, clothing, accessories exactly as in the original photo
 - Do NOT apply clay texture, smudging, or stop-motion stylization to the subject
@@ -117,16 +133,22 @@ COMPOSITION: Match original camera angle, framing, and perspective exactly.
 
 STRICT NEGATIVES: No stylization on subject. No cartoon or clay texture on skin or hair. No CGI plastic look. No voxel, LEGO, or pixel styles. No perfectly smooth digital surfaces.
 
-OUTPUT QUALITY: High detail, cinematic stop-motion realism, Laika/Aardman production quality`,
+OUTPUT QUALITY: High detail, cinematic stop-motion realism, Laika/Aardman production quality
+
+⚠️ FINAL REMINDER: The subject's face must be PIXEL-IDENTICAL to the uploaded photo. If the face looks even slightly different, the output is a failure. Do NOT redraw or regenerate the face under any circumstances.`,
   },
   {
     id: "sims",
     name: "심즈 스타일",
-    prompt: `You are a professional photo compositor and game environment artist specializing in The Sims 4 visual style.
+    prompt: `⚠️ CRITICAL INSTRUCTION — READ FIRST: The subject's face must be PIXEL-IDENTICAL to the original photo. Do NOT regenerate, redraw, beautify, or alter the face in any way. Copy the face exactly as-is. This is the #1 priority above all other instructions.
+
+You are a professional photo compositor and game environment artist specializing in The Sims 4 visual style.
 
 TASK: Transform the entire surrounding environment into The Sims 4 game world. The main subject must remain completely photorealistic and unchanged.
 
-SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+FACE & SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- The subject's face must remain EXACTLY identical to the original — same eyes, nose, mouth, jawline, skin tone, wrinkles, blemishes, everything
+- Do NOT regenerate or redraw the face — preserve the original pixels of the face region
 - The main subject must remain 100% photorealistic
 - Preserve face, skin, hair, clothing, accessories, and body exactly as photographed
 - Do NOT apply game engine rendering, cel shading, or Sims-style stylization to the subject
@@ -170,16 +192,22 @@ COMPOSITION: Preserve original camera angle, framing, and depth exactly.
 
 STRICT NEGATIVES: No pixel art. No voxel, LEGO, Minecraft, or clay styles. No anime or hand-drawn look. No painterly textures. No hyper-realism in the environment. No stylization on the subject.
 
-OUTPUT QUALITY: High resolution, The Sims 4 game engine fidelity, seamless subject integration`,
+OUTPUT QUALITY: High resolution, The Sims 4 game engine fidelity, seamless subject integration
+
+⚠️ FINAL REMINDER: The subject's face must be PIXEL-IDENTICAL to the uploaded photo. If the face looks even slightly different, the output is a failure. Do NOT redraw or regenerate the face under any circumstances.`,
   },
   {
     id: "pastel",
     name: "파스텔 일러스트 스타일",
-    prompt: `You are a professional mixed-media illustrator specializing in pastel cartoon overlay art and hand-drawn animation backgrounds.
+    prompt: `⚠️ CRITICAL INSTRUCTION — READ FIRST: The subject's face must be PIXEL-IDENTICAL to the original photo. Do NOT regenerate, redraw, beautify, or alter the face in any way. Copy the face exactly as-is. This is the #1 priority above all other instructions.
+
+You are a professional mixed-media illustrator specializing in pastel cartoon overlay art and hand-drawn animation backgrounds.
 
 TASK: Transform the entire surrounding environment into a vibrant hand-drawn pastel illustration world. The main subject must remain completely photorealistic and unchanged.
 
-SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+FACE & SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- The subject's face must remain EXACTLY identical to the original — same eyes, nose, mouth, jawline, skin tone, wrinkles, blemishes, everything
+- Do NOT regenerate or redraw the face — preserve the original pixels of the face region
 - The main subject must remain 100% photorealistic
 - Preserve face, skin, hair, clothing, and body exactly as in the original photo
 - Do NOT apply illustration, cartoon, pastel, or sketch styling to the subject
@@ -229,16 +257,22 @@ COMPOSITION: Match original camera angle and framing exactly.
 
 STRICT NEGATIVES: No stylization on the subject. No anime face proportions. No harsh colors or dark tones. No 3D rendering. No digital vector look — must feel hand-drawn.
 
-OUTPUT QUALITY: High resolution, professional children's book illustration quality, warm and charming atmosphere`,
+OUTPUT QUALITY: High resolution, professional children's book illustration quality, warm and charming atmosphere
+
+⚠️ FINAL REMINDER: The subject's face must be PIXEL-IDENTICAL to the uploaded photo. If the face looks even slightly different, the output is a failure. Do NOT redraw or regenerate the face under any circumstances.`,
   },
   {
     id: "apocalypse",
     name: "지구 종말 스타일",
-    prompt: `You are a professional concept artist and VFX compositor specializing in post-apocalyptic cinematic environments.
+    prompt: `⚠️ CRITICAL INSTRUCTION — READ FIRST: The subject's face must be PIXEL-IDENTICAL to the original photo. Do NOT regenerate, redraw, beautify, or alter the face in any way. Copy the face exactly as-is. This is the #1 priority above all other instructions.
+
+You are a professional concept artist and VFX compositor specializing in post-apocalyptic cinematic environments.
 
 TASK: Transform the entire surrounding environment into a cinematic dystopian post-apocalyptic world. The main subject must remain completely unchanged and photorealistic.
 
-SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+FACE & SUBJECT PRESERVATION (ABSOLUTE RULES — NEVER VIOLATE):
+- The subject's face must remain EXACTLY identical to the original — same eyes, nose, mouth, jawline, skin tone, wrinkles, blemishes, everything
+- Do NOT regenerate or redraw the face — preserve the original pixels of the face region
 - The main subject must remain completely unchanged — face, body, skin tone, hair, clothing, accessories, pose, expression
 - Do NOT add dirt, blood, wounds, burns, or damage effects to the subject
 - Do NOT change the subject's clothing color or texture
@@ -288,6 +322,8 @@ COMPOSITION: Preserve original camera angle, framing, perspective, and depth of 
 
 STRICT NEGATIVES: Do not alter the subject in any way. No zombies or monsters unless requested. No sci-fi elements. No text or UI. No color grading on the subject. No debris overlapping the subject.
 
-OUTPUT QUALITY: Ultra-realistic, Hollywood VFX quality, cinematic dystopian atmosphere, high detail rubble and environmental textures`,
+OUTPUT QUALITY: Ultra-realistic, Hollywood VFX quality, cinematic dystopian atmosphere, high detail rubble and environmental textures
+
+⚠️ FINAL REMINDER: The subject's face must be PIXEL-IDENTICAL to the uploaded photo. If the face looks even slightly different, the output is a failure. Do NOT redraw or regenerate the face under any circumstances.`,
   },
 ];
